@@ -1,0 +1,270 @@
+.container{max-width:1170px; margin:auto;}
+img{ max-width:100%;}
+
+.greeting{
+    text-align:center;
+    margin-left:auto;
+    margin-right:auto;
+    width:250px;
+    height:45px;
+    margin-bottom:0;
+}
+.inbox_people {
+    background: #f8f8f8 none repeat scroll 0 0;
+    float: left;
+    border-right:1px solid #c4c4c4;
+}
+.inbox_msg {
+    border: 1px solid #c4c4c4;
+    clear: both;
+    min-height: 562px;
+}
+.top_spac{ margin: 20px 0 0;}
+
+.invitations_list a{
+    padding-top: 5px;
+    padding-left: 4px;
+    width:20px;
+    float:left;
+    display: block;
+    height: 100%;
+}
+.inv_list_el{
+    height: 23px;
+    text-align: center;
+}
+.invitations_list a:hover{
+    cursor: pointer;
+    background-color: #d6d6d6;
+}
+
+.recent_heading {float: left; width:40%;}
+
+.friends_heading{
+    border-bottom: 1px dashed #c4c4c4;
+    padding:10px 10px 0 10px;
+    margin-bottom: 10px;
+    overflow:hidden;
+    font-size: 1.2rem;
+    color: #05728f;
+    height: 60px;
+}
+
+.recent_heading h4 {
+    margin: auto;
+}
+.invitations {
+    text-align: right;
+    float: right;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.active, .invitations:hover {
+    background-color: #E7E7E7;
+    color: #6BB8Bf;
+    cursor: pointer;
+}
+
+.invitations_content {
+    overflow: hidden;
+    display:block;
+    position:absolute;
+    right:0;
+    padding: 0 15px;
+    max-height: 0;
+    transition: max-height 0.5s ease-out;
+    background-color: #f8f8f8;
+    width: 350px;
+    height: 500px;
+    margin-right:25px;
+    border-style: none;
+}
+.invitations_content .active{
+
+
+}
+
+.invite{
+    margin-top:10px;
+    width: 310px;
+    background-color: #e7e7e7;
+    margin-bottom:10px;
+    max-height: 40px;
+    position:relative;
+}
+.invite input{
+    padding:10px;
+    background-color: #e7e7e7;
+    border: medium none;
+    color: #4c4c4c;
+    font-size: 15px;
+    max-height: 40px;
+    width:269px;
+}
+.invitations input{ border:1px solid #cdcdcd; width:80%; padding:2px 0 4px 6px; background:none;}
+
+.invitations .input-group-addon button {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: medium none;
+    padding: 0;
+    color: #707070;
+    font-size: 18px;
+}
+
+.invitations_list{
+    border-top: 1px dashed #c4c4c4;
+    width:310px;
+    font-size: 0.9rem;
+    font-weight:bold;
+    overflow-y: auto;
+}
+.invitations_list h4{
+    font-size: 1.5rem;
+}
+
+.box{
+    overflow-y: auto;
+    overflow-x:hidden;
+    max-height: 440px;
+    width:310px;
+}
+
+.chat_ib h5{ font-size:15px; color:#464646; margin:0 0 8px 0;}
+.chat_ib h5 span{ font-size:13px; float:right;}
+.chat_ib p{ font-size:14px; color:#989898; margin:auto}
+.chat_img {
+    float: left;
+    width: 11%;
+}
+.chat_ib {
+    float: left;
+    padding: 0 0 0 15px;
+    width: 88%;
+}
+
+.chat_people{ overflow:hidden; clear:both;}
+.chat_list {
+    border: 1px solid #c4c4c4;
+    margin-top: 4px;
+    padding: 18px 16px 10px;
+}
+
+.active_chat:hover{
+    background:#c9c9c9;
+    cursor: pointer;
+}
+
+
+.inbox_chat { height: 470px; overflow-y: auto; margin-bottom:20px;}
+
+.active_chat{
+    background:#ebebeb;
+}
+
+.incoming_msg_img {
+    display: inline-block;
+    width: 6%;
+}
+.received_msg {
+    display: inline-block;
+    padding: 0 0 0 10px;
+    vertical-align: top;
+    width: 92%;
+}
+.received_withd_msg p {
+    background: #ebebeb none repeat scroll 0 0;
+    border-radius: 3px;
+    color: #646464;
+    font-size: 14px;
+    margin: 0;
+    padding: 5px 10px 5px 12px;
+    width: 100%;
+}
+.time_date {
+    color: #747474;
+    display: block;
+    font-size: 12px;
+    margin: 8px 0 0;
+}
+.received_withd_msg { width: 57%;}
+.mesgs {
+    height: 560px;
+    float: left;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.sent_msg p {
+    background: #05728f none repeat scroll 0 0;
+    border-radius: 3px;
+    font-size: 14px;
+    margin: 0; color:#fff;
+    padding: 5px 10px 5px 12px;
+    width:100%;
+}
+.outgoing_msg{ overflow:hidden; margin:26px 0 26px;}
+.sent_msg {
+    float: right;
+    width: 46%;
+}
+.input_msg_write input {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: medium none;
+    color: #4c4c4c;
+    font-size: 15px;
+    min-height: 48px;
+    width: 94%;
+}
+
+.type_msg {float:left; border-top: 1px solid #c4c4c4; padding-left: 15px; padding-right: 15px; width:100%;}
+.send_btn {
+    background: #05728f none repeat scroll 0 0;
+    border: medium none;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    font-size: 17px;
+    height: 33px;
+    right: 0;
+    width: 33px;
+    outline:none;
+
+}
+
+.send_btn:focus{
+    outline:none;
+}
+
+.messaging { padding: 0 0 50px 0;}
+.msg_history {
+    overflow-y: auto;
+}
+.msg_history_container{
+    height: 510px;
+    padding: 20px 15px 15px 15px;
+    overflow-y: auto;
+}
+.popuptext {
+    font-size: 1rem;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 10;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+}
+.popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}

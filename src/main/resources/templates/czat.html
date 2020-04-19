@@ -1,0 +1,133 @@
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet">
+    <script src="js/app.js"></script>
+    <link href="css/style.css" type="text/css" rel="stylesheet">
+  </head>
+  <body>
+    <noscript>
+      <h2 style="color: #ff0000">
+        Seems your browser doesn't support Javascript! Websocket relies on Javascript being
+        enabled. Please enable Javascript and reload this page!
+      </h2>
+    </noscript>
+    <div class="container">
+      <div class="greeting">
+        <h4>
+          <span class="float-left">
+            <span>Hello </span><span id="greeting" sec:authentication="name"></span>
+          </span>
+        </h4>
+        <form th:action="@{/logout}" method="post" class="float-left ml-3 mb-0">
+          <input type="submit" class="btn btn-secondary" value="Sign out"/>
+        </form>
+        <div style="clear:both"></div>
+      </div>
+
+        <!--TODO-->
+<!--      <div class="form-group pb-2" id="sending">-->
+<!--        <div class="d-inline-block col-4 p-0">-->
+<!--          <label for="destinationName" class="d-block" >Enter destination username</label>-->
+<!--          <input type="text" class="form-control d-inline-block" id="destinationName" placeholder="destination user">-->
+<!--        </div>-->
+<!--        <div class="d-inline-block col-4 p-0 ml-2">-->
+<!--          <label for="message" class="d-block">Your message</label>-->
+<!--          <input type="text" name="friendslogin" class="form-control  d-inline-block" id="message" placeholder="message">-->
+<!--        </div>-->
+<!--        <button type="button" id="send" class="btn btn-secondary mb-1">Send</button>-->
+<!--      </div>-->
+
+      <div class="inbox_msg">
+        <div class="inbox_people col-sm-12 col-md-5">
+          <div class="friends_heading">
+            <div class="recent_heading">
+              <h4>Recent</h4>
+            </div>
+            <div class="invitations collapsible">
+              <h4 class="d-inline-block">Invitations</h4>
+              <span class="input-group-addon d-inline-block add_user">
+                  <i class="fa fa-user-plus" aria-hidden="true"></i>
+                </span>
+            </div>
+            <div style="clear:both;"></div>
+
+            <div class="invitations_content">
+                <div class="invite">
+                <input type="hidden" id="headerName" th:value="${_csrf.getHeaderName()}"/>
+                <input type="hidden" id="token" th:value="${_csrf.getToken()}"/>
+                  <input type="text" name="value" id="friendslogin" placeholder="Enter friend's name">
+                  <span class="popuptext" id="myPopup"></span>
+                  <button class="send_btn" type="button" id="sendInvitation">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                  </button>
+                </div>
+              <div class="box">
+                <div class="invitations_list">
+                  <h4 class="mt-1">Invitations</h4>
+
+                  <div th:each="invitation, stat : ${invitations}" th:class="${stat.index}+'inv'+' inv_list_el'">
+                    <a class="button " th:attr="onclick=|acceptFriend(${stat.index},'${invitation}')|" >
+                      <i class="fa fa-plus mr-1"></i>
+                    </a>
+                    <a class="button " th:attr="onclick=|deleteFriend(${stat.index},'${invitation}')|">
+                      <i class="fa fa-minus mr-2"></i>
+                    </a>
+                    <span th:text="${invitation}" style="display:block; float:left; text-align: left">Invitation</span>
+                    <div style="clear: both"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="inbox_chat">
+            <div class="chat_list active_chat" th:each="friend: ${friends}" th:attr="onclick=|setRecipent('${friend}'); showMessages('${friend}')|">
+              <div class="chat_people" >
+                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                <div class="chat_ib">
+                  <h5 th:text="${friend}"><span class="chat_date">Dec 25</span></h5>
+                  <p>Test, which is a new approach to have all solutions
+                    astrology under one roof.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mesgs col-sm-12 col-md-7">
+          <div class="msg_history_container">
+            <div class="msg_history">
+              <div class="incoming_msg">
+                <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                <div class="received_msg">
+                  <div class="received_withd_msg">
+                    <p>Test which is a new approach to have all
+                      solutions</p>
+                    <span class="time_date"> 11:01 AM  |  June 9</span></div>
+                </div>
+              </div>
+              <div class="outgoing_msg">
+                <div class="sent_msg">
+                  <p>Test which is a new approach to have all
+                    solutions</p>
+                  <span class="time_date"> 11:01 AM  |  June 9</span> </div>
+              </div>
+            </div>
+          </div>
+          <div class="type_msg">
+            <div class="input_msg_write">
+              <input type="text" id="message" class="write_msg" placeholder="Type a message" />
+              <button id="send_msg" class="send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+              <div style="clear:both;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
