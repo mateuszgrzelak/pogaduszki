@@ -147,20 +147,26 @@ img{ max-width:100%;}
     border: 1px solid #c4c4c4;
     margin-top: 4px;
     padding: 18px 16px 10px;
+    background:#ebebeb;
 }
 
-.active_chat:hover{
+.chat_list:hover{
     background:#c9c9c9;
     cursor: pointer;
+}
+
+.active_chat{
+    background:#c9c9c9;
+    cursor: default !important;
 }
 
 
 .inbox_chat { height: 470px; overflow-y: auto; margin-bottom:20px;}
 
-.active_chat{
-    background:#ebebeb;
-}
 
+.incoming_msg{
+    margin: 0 0 10px 0;
+}
 .incoming_msg_img {
     display: inline-block;
     width: 6%;
@@ -202,7 +208,7 @@ img{ max-width:100%;}
     padding: 5px 10px 5px 12px;
     width:100%;
 }
-.outgoing_msg{ overflow:hidden; margin:26px 0 26px;}
+.outgoing_msg{ overflow:hidden; margin: 0 0 10px 0;}
 .sent_msg {
     float: right;
     width: 46%;

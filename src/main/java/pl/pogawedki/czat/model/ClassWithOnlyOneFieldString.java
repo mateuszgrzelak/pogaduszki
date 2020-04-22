@@ -1,4 +1,4 @@
-package pl.pogawedki.czat;
+package pl.pogawedki.czat.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -11,8 +11,20 @@ $(function () {
     hedval = $("#token").val();
     connect();
     $( "#myPopup" ).toggle();
-    $( "#send_msg" ).click(function() { sendMessage(); });
+    $( "#send_msg" ).click(function() {sendMessage();});
+    $( "#message" ).on('keyup', function (e) {
+        if (e.keyCode === 13) {
+            sendMessage();
+        }
+    });
+
     $( "#sendInvitation" ).click(function(e){sendInvitation(e);});
+    $( "#friendslogin" ).on('keyup', function (e) {
+        if (e.keyCode === 13) {
+            sendInvitation(e);
+        }
+    });
+
     $( "body" ).click(function(e){removeInivationsContainer(e);});
     $(".invitations").on('click', function(){showInvitationsContainer();});
 });
@@ -29,7 +41,7 @@ function acceptFriend(index, name){
         success: function(data) {
             setTimeout(function() {$("."+index+"inv").remove();
             }, 1);
-            showFriendChatBox(name);
+            addFriendChatBox(name);
         },
         error: function (data) {
         }
@@ -126,17 +138,17 @@ function connect() {
             showMessage(JSON.parse(message.body));
         });
         stompClient.subscribe('/topic/' + username + '?inv', function (message) {
-            showInvitation(JSON.parse(message.body));
+            addInvitationBox(JSON.parse(message.body));
         });
         stompClient.subscribe('/topic/' + username + '?conv', function (message) {
-            showFriendChatBox(JSON.parse(message.body).value);
+            addFriendChatBox(JSON.parse(message.body).value);
         });
     });
 }
 
-function showFriendChatBox(message){
-    $(".inbox_chat").append('<div class="chat_list active_chat" onclick="setRecipent('+message+');' +
-        ' showMessages('+message+')">\n' +
+function addFriendChatBox(message){
+    $(".inbox_chat").append('<div class="chat_list" onclick="setRecipent(\''+message+'\', this);' +
+        ' showMessages(\''+message+'\')">\n' +
         '              <div class="chat_people" >\n' +
         '                <div class="chat_img">' +
         ' <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>\n' +
@@ -150,7 +162,7 @@ function showFriendChatBox(message){
     );
 }
 
-function showInvitation(message){
+function addInvitationBox(message){
     let invitationsSize = $(".inv_list_el").length;
     $(".invitations_list").append(' <div class = "'+ invitationsSize+'inv ' +' inv_list_el"> \
         <a class="button " onclick="acceptFriend(\''+invitationsSize+'\', \''+message.value+'\')"> \
@@ -176,17 +188,96 @@ function showInvitation(message){
 // }
 
 function sendMessage() {
+    let message = $("#message");
     if (actualRicipient==null){
         return false;
     }
-    let jsonData = JSON.stringify({'content': $("#message").val(),'to':actualRicipient, 'from':username});
+    if(message.val()===''){
+        return false;
+    }
+    let jsonData = JSON.stringify({'content': message.val(),'to':actualRicipient, 'from':username});
     stompClient.send("/app/czat", {}, jsonData);
+    let history = $(".msg_history");
+    let historyContainer = $(".msg_history_container");
+    if(history.height()===historyContainer.height()+historyContainer.scrollTop()+15){
+        addIncomingMessage(JSON.parse(jsonData));
+        historyContainer.animate({scrollTop: history.height() }, "slow");
+    }else{
+        addIncomingMessage(JSON.parse(jsonData));
+    }
+    message.val('');
 }
 
 function showMessage(message) {
-    $(".msg_history").append("<div>"+message.content+"</div>");
+    let history = $(".msg_history");
+    let historyContainer = $(".msg_history_container");
+    if(history.height()===historyContainer.height()+historyContainer.scrollTop()+15){
+        addOutgoingMessage(message);
+        historyContainer.animate({scrollTop: history.height() }, "slow");
+    }else{
+        addOutgoingMessage(message);
+    }
+}
+let onClickAttrChat;
+function setRecipent(friendName, object){
+    actualRicipient = friendName;
+    $('.chat_list').each(function(i, obj) {
+        if($(obj).hasClass("active_chat")){
+            $(obj).attr("onclick", onClickAttrChat);
+            $(obj).toggleClass("active_chat");
+        }
+    });
+    onClickAttrChat = $(object).attr("onclick");
+    object.attributes.onclick.nodeValue = "";
+    $(object).toggleClass("active_chat");
 }
 
-function setRecipent(friendName){
-    actualRicipient = friendName;
+function showMessages(friendName){
+    let msgHistory = $(".msg_history");
+    let historyContainer = $(".msg_history_container");
+    msgHistory.html("");
+    $.ajax({
+        type: "get",
+        beforeSend: function(request) {
+            request.setRequestHeader(hedname, hedval);
+        },
+        url: '/messages?user='+friendName,
+        success: function(data)
+        {
+            let jsonData = JSON.parse(data);
+            for(i = 0; i < JSON.parse(data).length; i++){
+                let message = jsonData[i];
+                if(message.from === username){
+                    addIncomingMessage(message);
+                }else{
+                    addOutgoingMessage(message);
+                }
+            }
+            historyContainer.animate({scrollTop: msgHistory.height() }, "slow");
+        },
+        error: function (data) {
+        }
+    });
+}
+function addIncomingMessage(message){
+    let msgHistory = $(".msg_history");
+    msgHistory.append('<div class="outgoing_msg">\n' +
+        '                <div class="sent_msg">\n' +
+        '                  <p>'+message.content+'</p>\n' +
+        '                  <span class="time_date"> 11:01 AM  |  June 9</span> </div>\n' +
+        '              </div>');
+
+
+}
+
+function addOutgoingMessage(message){
+    let msgHistory = $(".msg_history");
+    msgHistory.append('<div class="incoming_msg">\n' +
+        '                <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>\n' +
+        '                <div class="received_msg">\n' +
+        '                  <div class="received_withd_msg">\n' +
+        '                    <p>'+message.content+'</p>\n' +
+        '                    <span class="time_date"> 11:01 AM  |  June 9</span></div>\n' +
+        '                </div>\n' +
+        '              </div>');
 }

@@ -1,4 +1,4 @@
-package pl.pogawedki.czat;
+package pl.pogawedki.czat.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO {
-    @Size(max=10, message = "{pl.pogawedki.validation.username.Size.message}")
+    @Size(min=4, max=10, message = "{pl.pogawedki.validation.username.Size.message}")
     @Pattern(regexp = "[[A-Z][a-z][0-9]]+", message = "{pl.pogawedki.validation.username.Pattern.message}")
     private String username;
     @NotBlank(message = "{pl.pogawedki.validation.password.NotBlank.message}")

@@ -1,10 +1,12 @@
-package pl.pogawedki.czat;
+package pl.pogawedki.czat.service;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import pl.pogawedki.czat.model.User;
+import pl.pogawedki.czat.repository.UserRepository;
 
 import java.util.Arrays;
 import java.util.List;

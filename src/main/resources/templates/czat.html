@@ -87,7 +87,7 @@
             </div>
           </div>
           <div class="inbox_chat">
-            <div class="chat_list active_chat" th:each="friend: ${friends}" th:attr="onclick=|setRecipent('${friend}'); showMessages('${friend}')|">
+            <div class="chat_list" th:each="friend: ${friends}" th:attr="onclick=|setRecipent('${friend}', this); showMessages('${friend}')|">
               <div class="chat_people" >
                 <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                 <div class="chat_ib">
@@ -102,21 +102,6 @@
         <div class="mesgs col-sm-12 col-md-7">
           <div class="msg_history_container">
             <div class="msg_history">
-              <div class="incoming_msg">
-                <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                <div class="received_msg">
-                  <div class="received_withd_msg">
-                    <p>Test which is a new approach to have all
-                      solutions</p>
-                    <span class="time_date"> 11:01 AM  |  June 9</span></div>
-                </div>
-              </div>
-              <div class="outgoing_msg">
-                <div class="sent_msg">
-                  <p>Test which is a new approach to have all
-                    solutions</p>
-                  <span class="time_date"> 11:01 AM  |  June 9</span> </div>
-              </div>
             </div>
           </div>
           <div class="type_msg">
