@@ -197,14 +197,6 @@ function sendMessage() {
     }
     let jsonData = JSON.stringify({'content': message.val(),'to':actualRicipient, 'from':username});
     stompClient.send("/app/czat", {}, jsonData);
-    let history = $(".msg_history");
-    let historyContainer = $(".msg_history_container");
-    if(history.height()===historyContainer.height()+historyContainer.scrollTop()+15){
-        addIncomingMessage(JSON.parse(jsonData));
-        historyContainer.animate({scrollTop: history.height() }, "slow");
-    }else{
-        addIncomingMessage(JSON.parse(jsonData));
-    }
     message.val('');
 }
 
@@ -212,10 +204,18 @@ function showMessage(message) {
     let history = $(".msg_history");
     let historyContainer = $(".msg_history_container");
     if(history.height()===historyContainer.height()+historyContainer.scrollTop()+15){
-        addOutgoingMessage(message);
+        if(message.from === username){
+            addIncomingMessage(message);
+        }else{
+            addOutgoingMessage(message);
+        }
         historyContainer.animate({scrollTop: history.height() }, "slow");
     }else{
-        addOutgoingMessage(message);
+        if(message.from === username){
+            addIncomingMessage(message);
+        }else{
+            addOutgoingMessage(message);
+        }
     }
 }
 let onClickAttrChat;
@@ -264,7 +264,7 @@ function addIncomingMessage(message){
     msgHistory.append('<div class="outgoing_msg">\n' +
         '                <div class="sent_msg">\n' +
         '                  <p>'+message.content+'</p>\n' +
-        '                  <span class="time_date"> 11:01 AM  |  June 9</span> </div>\n' +
+        '                  <span class="time_date">'+message.date+'</span> </div>\n' +
         '              </div>');
 
 
@@ -277,7 +277,7 @@ function addOutgoingMessage(message){
         '                <div class="received_msg">\n' +
         '                  <div class="received_withd_msg">\n' +
         '                    <p>'+message.content+'</p>\n' +
-        '                    <span class="time_date"> 11:01 AM  |  June 9</span></div>\n' +
+        '                    <span class="time_date">'+message.date+'</span></div>\n' +
         '                </div>\n' +
         '              </div>');
 }

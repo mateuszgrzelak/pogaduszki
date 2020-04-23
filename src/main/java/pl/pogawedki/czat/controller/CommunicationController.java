@@ -19,6 +19,9 @@ import pl.pogawedki.czat.repository.UserRepository;
 
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @Controller
 public class CommunicationController {
@@ -26,6 +29,7 @@ public class CommunicationController {
     private final SimpMessagingTemplate messagingTemplate;
     private final UserRepository userRepository;
     private final MessageRepository messageRepository;
+    DateTimeFormatter formatter;
 
 
     public CommunicationController(SimpMessagingTemplate messagingTemplate,
@@ -33,11 +37,14 @@ public class CommunicationController {
         this.messagingTemplate = messagingTemplate;
         this.userRepository = repository;
         this.messageRepository = messageRepository;
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd | HH:mm");
     }
 
     @MessageMapping("/czat")
     public void message(@NotNull Message message, Principal principal) {
         User destinationUser = userRepository.findByUsername(message.getTo());
+        message.setDate(LocalDateTime.now().format(formatter));
+
         if(message.getContent()==null){
             return;
         }
@@ -54,7 +61,9 @@ public class CommunicationController {
         messDB.getMessages().add(message);
         messageRepository.save(messDB);
         messagingTemplate.convertAndSend("/topic/" + message.getTo(), new Message(message.getFrom(),
-                null, HtmlUtils.htmlEscape(message.getContent())));
+                null, HtmlUtils.htmlEscape(message.getContent()), message.getDate()));
+        messagingTemplate.convertAndSend("/topic/" + message.getFrom(), new Message(message.getFrom(),
+                null, HtmlUtils.htmlEscape(message.getContent()), message.getDate()));
     }
 
     @GetMapping("/messages")
