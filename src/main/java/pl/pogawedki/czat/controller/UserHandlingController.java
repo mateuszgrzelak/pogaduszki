@@ -11,6 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 import pl.pogawedki.czat.model.ClassWithOnlyOneFieldString;
 import pl.pogawedki.czat.model.MessagesDB;
 import pl.pogawedki.czat.model.User;
@@ -22,6 +23,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 @Controller
 public class UserHandlingController {
@@ -80,13 +82,13 @@ public class UserHandlingController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        User loggedUser = userRepository.findByUsername(principal.getName());
-        if (!loggedUser.getInvitations().contains(friendsLogin.getValue())) {
+        User invitedUser = userRepository.findByUsername(principal.getName());
+        if (!invitedUser.getInvitations().contains(friendsLogin.getValue())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        loggedUser.getFriends().put(friendsLogin.getValue(), (principal.getName()+friendsLogin.getValue()));
-        loggedUser.getInvitations().remove(friendsLogin.getValue());
-        userRepository.save(loggedUser);
+        invitedUser.getFriends().put(friendsLogin.getValue(), (principal.getName()+friendsLogin.getValue()));
+        invitedUser.getInvitations().remove(friendsLogin.getValue());
+        userRepository.save(invitedUser);
 
         User userWhoInvites = userRepository.findByUsername(friendsLogin.getValue());
 
@@ -94,10 +96,12 @@ public class UserHandlingController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        userWhoInvites.getFriends().put(loggedUser.getUsername(), (principal.getName()+friendsLogin.getValue()));
+        userWhoInvites.getFriends().put(invitedUser.getUsername(), (principal.getName()+friendsLogin.getValue()));
         userRepository.save(userWhoInvites);
-        messagingTemplate.convertAndSend("/topic/" + friendsLogin.getValue() + "?conv"
-                , new ClassWithOnlyOneFieldString(principal.getName()));
+        messagingTemplate.convertAndSend("/topic/" + invitedUser.getUsername() + "?conv"
+                , new User(userWhoInvites.getUsername(), null, userWhoInvites.getDescription(), null, null));
+        messagingTemplate.convertAndSend("/topic/" + userWhoInvites.getUsername() + "?conv"
+                , new User(invitedUser.getUsername(), null, invitedUser.getDescription(), null, null));
 
         messageRepository.insert(new MessagesDB((principal.getName()+friendsLogin.getValue()), new LinkedList<>()));
 
@@ -147,8 +151,7 @@ public class UserHandlingController {
         if (result.hasErrors()) {
             return "singUp";
         }
-        userRepository.insert(new User(userDTO.getUsername(), encoder.encode(userDTO.getPassword()),
-                new HashMap<>(), new LinkedList<>()));
+        userRepository.insert(new User(userDTO.getUsername(), encoder.encode(userDTO.getPassword()), HtmlUtils.htmlEscape(userDTO.getDescription()), new HashMap<>(), new LinkedList<>()));
         return "login";
     }
 
@@ -156,7 +159,12 @@ public class UserHandlingController {
     public String getCzat(Principal principal, Model model) {
         User user = userRepository.findByUsername(principal.getName());
         model.addAttribute("invitations", user.getInvitations());
+        List<User> users= new LinkedList<>();
+        for(String login: user.getFriends().keySet()){
+            users.add(userRepository.findByUsername(login));
+        }
         model.addAttribute("friends", user.getFriends().keySet());
+        model.addAttribute("users", users);
         return "czat";
     }
 

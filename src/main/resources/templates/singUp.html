@@ -1,38 +1,36 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Rejestracja</title>
-</head>
-<body>
-<h1>Rejestracja</h1>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejestracja</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="css/log.css" rel="stylesheet" >
+  </head>
+  <body>
+  <div class="wrapper">
+    <div id="formContent" >
 
-<form action="#" th:action="@{/register}" th:object="${userDTO}" method="post">
-  <table>
-    <tr>
-      <td>username:</td>
-      <td><input type="text" th:field="*{username}" /></td>
-      <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">username error</td>
-    </tr>
-    <tr>
-      <td>password:</td>
-      <td><input type="text" th:field="*{password}" /></td>
-      <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Age Error</td>
-    </tr>
-    <tr>
-      <td><button type="submit">Submit</button></td>
-    </tr>
-  </table>
-</form>
+      <form th:action="@{/register}" th:object="${userDTO}" id="loginForm" method="post">
+        <input type="text" id="login" class="mt-3 " th:field="*{username}" placeholder="login">
+        <input type="password" id="password" th:field="*{password}" placeholder="password">
+        <textarea id="description" th:field="*{description}" name="description" placeholder="A few words about You" rows="2"></textarea>
+        <div  th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class=" text-danger" >
+          Username error.
+        </div>
+        <div  th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class=" text-danger" >
+          Password error.
+        </div>
+        <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class=" text-danger" >
+          Description error.
+        </div>
 
+        <input type="submit"  value="Sign up">
+      </form>
 
-
-<!--<form action="#" th:action="@{/register}" th:object="${user}" method="post">-->
-<!--  <p>Username: <input type="text" th:field="*{username}"/> </p>-->
-<!--  <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">username error</p>-->
-<!--  <p>Password: <input type="text" th:field="*{password}"/> </p>-->
-<!--  <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">username error</p>-->
-<!--  <p><input type="submit" value="Submit"/> </p>-->
-<!--</form>-->
-</body>
+    </div>
+  </div>
+  </body>
 </html>

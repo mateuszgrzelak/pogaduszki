@@ -13,8 +13,11 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class UserDTO {
     @Size(min=4, max=10, message = "{pl.pogawedki.validation.username.Size.message}")
-    @Pattern(regexp = "[[A-Z][a-z][0-9]]+", message = "{pl.pogawedki.validation.username.Pattern.message}")
+    @Pattern(regexp = "[\\w]+", message = "{pl.pogawedki.validation.username.Pattern.message}")
     private String username;
     @NotBlank(message = "{pl.pogawedki.validation.password.NotBlank.message}")
     private String password;
+    @NotBlank(message = "{pl.pogawedki.validation.description.NotBlank.message}")
+    @Size(max=200, message = "{pl.pogawedki.validation.description.Size.message}")
+    private String description;
 }

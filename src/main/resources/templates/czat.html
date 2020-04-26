@@ -1,7 +1,9 @@
-<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:style="http://www.w3.org/1999/xhtml">
   <head>
     <title>Chat</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" ></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -21,29 +23,15 @@
     </noscript>
     <div class="container">
       <div class="greeting">
-        <h4>
-          <span class="float-left">
+        <h4 class="d-inline-block">
+          <span>
             <span>Hello </span><span id="greeting" sec:authentication="name"></span>
           </span>
         </h4>
-        <form th:action="@{/logout}" method="post" class="float-left ml-3 mb-0">
+        <form th:action="@{/logout}" method="post" class="d-inline-block ml-3 mb-0">
           <input type="submit" class="btn btn-secondary" value="Sign out"/>
         </form>
-        <div style="clear:both"></div>
       </div>
-
-        <!--TODO-->
-<!--      <div class="form-group pb-2" id="sending">-->
-<!--        <div class="d-inline-block col-4 p-0">-->
-<!--          <label for="destinationName" class="d-block" >Enter destination username</label>-->
-<!--          <input type="text" class="form-control d-inline-block" id="destinationName" placeholder="destination user">-->
-<!--        </div>-->
-<!--        <div class="d-inline-block col-4 p-0 ml-2">-->
-<!--          <label for="message" class="d-block">Your message</label>-->
-<!--          <input type="text" name="friendslogin" class="form-control  d-inline-block" id="message" placeholder="message">-->
-<!--        </div>-->
-<!--        <button type="button" id="send" class="btn btn-secondary mb-1">Send</button>-->
-<!--      </div>-->
 
       <div class="inbox_msg">
         <div class="inbox_people col-sm-12 col-md-5">
@@ -65,9 +53,12 @@
                 <input type="hidden" id="token" th:value="${_csrf.getToken()}"/>
                   <input type="text" name="value" id="friendslogin" placeholder="Enter friend's name">
                   <span class="popuptext" id="myPopup"></span>
+                  <div style="float:right; margin-top:4px;">
                   <button class="send_btn" type="button" id="sendInvitation">
                     <i class="fa fa-plus" aria-hidden="true"></i>
                   </button>
+                  </div>
+                  <div style="clear: both;"></div>
                 </div>
               <div class="box">
                 <div class="invitations_list">
@@ -88,13 +79,12 @@
             </div>
           </div>
           <div class="inbox_chat">
-            <div class="chat_list" th:each="friend: ${friends}" th:attr="onclick=|setRecipent('${friend}', this); showMessages('${friend}')|">
+            <div class="chat_list" th:each="user: ${users}" th:attr="onclick=|setRecipent('${user.getUsername()}', this); showMessages('${user.getUsername()}')|">
               <div class="chat_people" >
-                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                <div class="chat_img"> <img src="img/user-profile.png" alt="sunil"> </div>
                 <div class="chat_ib">
-                  <h5 th:text="${friend}"><span class="chat_date">Dec 25</span></h5>
-                  <p>Test, which is a new approach to have all solutions
-                    astrology under one roof.</p>
+                  <h5 th:text="${user.getUsername()}"></h5>
+                  <p th:text="${user.getDescription()}">Description.</p>
                 </div>
               </div>
             </div>
@@ -108,7 +98,9 @@
           <div class="type_msg">
             <div class="input_msg_write">
               <input type="text" id="message" class="write_msg" placeholder="Type a message" />
+              <div class="butttonDiv">
               <button id="send_msg" class="send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+              </div>
               <div style="clear:both;"></div>
             </div>
           </div>

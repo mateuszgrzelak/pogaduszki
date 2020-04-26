@@ -17,12 +17,14 @@ public class User {
     private String password;
     private Map<String, String> friends;
     private List<String> invitations;
+    private String description;
 
-    public User(String username, String password, Map<String,String> friends, List<String> invitations) {
+    public User(String username, String password, String description, Map<String,String> friends, List<String> invitations) {
         this.username = username;
         this.password = password;
         this.friends = friends;
         this.invitations = invitations;
+        this.description = description;
     }
 
     public User(){}

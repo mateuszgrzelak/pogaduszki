@@ -70,13 +70,6 @@ h2 {
     max-width: 49%;
     display: inline-block;
 }
-#formFooter div:first-child{
-    border-right: 1px solid #dce8f1;
-}
-
-
-
-/* TABS */
 
 h2.inactive {
     color: #cccccc;
@@ -125,8 +118,8 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active  
     transform: scale(0.95);
 }
 
-input[type=text], input[type=password] {
-    background-color: #f6f6f6;
+input[type=text], input[type=password], textarea {
+    background-color: #ebebeb;
     border: none;
     color: #0d0d0d;
     padding: 15px 32px;
@@ -145,13 +138,30 @@ input[type=text], input[type=password] {
     -webkit-border-radius: 5px 5px 5px 5px;
     border-radius: 5px 5px 5px 5px;
 }
+textarea{
+    resize: none;
+    text-align: justify;
+}
 
-input[type=text]:focus, input[type=password]:focus  {
+textarea::-webkit-input-placeholder {
+    text-align: center;
+}
+textarea:-moz-placeholder { /* Firefox 18- */
+    text-align: center;
+}
+textarea::-moz-placeholder {  /* Firefox 19+ */
+    text-align: center;
+}
+textarea:-ms-input-placeholder {
+    text-align: center;
+}
+
+input[type=text]:focus, input[type=password]:focus, textarea:focus  {
     background-color: #fff;
     border-bottom: 2px solid #5fbae9;
 }
 
-input[type=text]::placeholder, input[type=password]::placeholder  {
+input[type=text]::placeholder, input[type=password]::placeholder, textarea::placeholder  {
     color: #6D6D6D;
 }
 
