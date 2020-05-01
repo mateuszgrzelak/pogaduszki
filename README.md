@@ -30,7 +30,7 @@ After that in CLI enter:
 docker run -d --hostname my-rabbit --name some-rabbit -p 15672:15672 -p 61613:61613 -e RABBITMQ_DEFAULT_USER=<user> -e RABBITMQ_DEFAULT_PASS=<password> rabbitmq:chat
 ```
 
-This project uses authentication in MongoDb and RabbitMQ. 
+This project uses authentication in MongoDB and RabbitMQ. 
 
 After downloading the source code and building the jar file in CLI enter: 
 ```
