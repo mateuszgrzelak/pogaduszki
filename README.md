@@ -2,6 +2,8 @@
 
  Authentication is done by Spring Security where details about users are stored in MongoDB. All messages are sending through WebSocket protocol and are stored in MongoDB.
  To download RabbitMQ and MongoDB you can use Docker and following commands:
+ 
+### Intallation
 
 MongoDB: 
 ```
@@ -32,13 +34,19 @@ java -Drabbitmq.login=<user> -Drabbitmq.password=<password> -Dspring.data.mongod
 
 ## Login page
 
-![Login page](https://github.com/mateuszgrzelak/pogaduszki/blob/master/github_images/login.png)
+<p align="center"> 
+<img src="https://github.com/mateuszgrzelak/pogaduszki/blob/master/github_images/login.png">
+</p>
 
 ## Signup page
 
-![Register page](https://github.com/mateuszgrzelak/pogaduszki/blob/master/github_images/register.png)
+<p align="center"> 
+<img src="https://github.com/mateuszgrzelak/pogaduszki/blob/master/github_images/register.png">
+</p>
 
 ## Main page
 
-![Main page](https://github.com/mateuszgrzelak/pogaduszki/blob/master/github_images/main.png)
+<p align="center"> 
+<img src="https://github.com/mateuszgrzelak/pogaduszki/blob/master/github_images/main.png">
+</p>
 
