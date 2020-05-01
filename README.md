@@ -7,7 +7,7 @@ RabbitMQ and MongoDB can be downloaded using [Docker](https://www.docker.com/).
  
 ### Intallation
 
-**MongoDB:** 
+**MongoDB:** In CLI (Command Line Interpreter) enter:
 ```
 docker run -d --name some-mongo -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=<login> -e MONGO_INITDB_ROOT_PASSWORD=<password> mongo
 ```
@@ -20,7 +20,7 @@ RUN rabbitmq-plugins enable --offline rabbitmq_stomp
 RUN rabbitmq-plugins enable --offline rabbitmq_web_stomp
 EXPOSE 61613
 ```
-Then in CLI (Command Line Interpreter) enter: 
+Then in CLI enter: 
 ```
 docker build -f Dockerfile -t rabbitmq:chat .
 ```
