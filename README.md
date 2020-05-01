@@ -30,9 +30,15 @@ After downloading the source code and building the jar file in CLI enter:
 java -Drabbitmq.login=<user> -Drabbitmq.password=<password> -Dspring.data.mongodb.username=<user> -Dspring.data.mongodb.password=<password> -DIPAddress=<optional_ip_address or *> -jar czat.jar >logs.log 2>errors.log
 ```
 
+## Login page
+
 ![Login page](https://github.com/mateuszgrzelak/pogaduszki/blob/master/github_images/login.png)
 
+## Signup page
+
 ![Register page](https://github.com/mateuszgrzelak/pogaduszki/blob/master/github_images/register.png)
+
+## Main page
 
 ![Main page](https://github.com/mateuszgrzelak/pogaduszki/blob/master/github_images/main.png)
 
