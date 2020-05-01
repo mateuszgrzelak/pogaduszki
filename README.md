@@ -1,7 +1,8 @@
 ## A simple chat project written in Java that uses RabbitMQ, WebSocket, MongoDB and Spring.
 
  Authentication is done by Spring Security where details about users are stored in MongoDB. All messages are sending through WebSocket protocol and are stored in MongoDB.
- To download RabbitMQ and MongoDB you can use Docker and following commands:
+ 
+To download RabbitMQ and MongoDB you can use Docker.
  
 ### Intallation
 
