@@ -3,7 +3,7 @@ A simple project that uses [RabbitMQ](https://www.rabbitmq.com/), [WebSocket](ht
 
 Authentication is done by Spring Security where details about users are stored in MongoDB. All messages are sending through WebSocket protocol and are stored in MongoDB.
  
-To download RabbitMQ and MongoDB you can use Docker.
+RabbitMQ and MongoDB can be downloaded using [Docker](https://www.docker.com/).
  
 ### Intallation
 
