@@ -1,4 +1,4 @@
-package pl.pogawedki.czat.model;
+package pl.com.pogaduszki.chat.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

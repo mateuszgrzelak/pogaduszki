@@ -4,12 +4,13 @@ let hedname;
 let hedval;
 let actualRicipient;
 
-
 $(function () {
     username = $("#greeting").text();
     hedname = $("#headerName").val();
     hedval = $("#token").val();
+
     connect();
+
     $("#myPopup").toggle();
     $("#send_msg").click(function () {
         sendMessage();
@@ -19,7 +20,6 @@ $(function () {
             sendMessage();
         }
     });
-
     $("#sendInvitation").click(function (e) {
         sendInvitation(e);
     });
@@ -28,7 +28,6 @@ $(function () {
             sendInvitation(e);
         }
     });
-
     $("body").click(function (e) {
         removeInivationsContainer(e);
     });
@@ -77,7 +76,8 @@ function deleteFriend(index, name) {
 
 function removeInivationsContainer(e) {
 
-    if ($(e.target).closest(".invitations").length > 0 || $(e.target).closest(".invitations_content").length > 0) {
+    if ($(e.target).closest(".invitations").length > 0 || $(e.target)
+        .closest(".invitations_content").length > 0) {
         return false;
     }
     let inv = $(".invitations");
@@ -161,8 +161,8 @@ function addFriendChatBox(message) {
         '                <div class="chat_img">' +
         ' <img src="img/user-profile.png" alt="sunil"> </div>\n' +
         '                <div class="chat_ib">\n' +
-        '                  <h5>' + message.username + '<span class="chat_date">Dec 25</span></h5>\n' +
-        '                  <p>'+message.description+'</p>\n' +
+        '                  <h5>' + message.username + '</h5>\n' +
+        '                  <p>' + message.description + '</p>\n' +
         '                </div>\n' +
         '              </div>\n' +
         '            </div>'
@@ -192,7 +192,11 @@ function sendMessage() {
     if (message.val() === '') {
         return false;
     }
-    let jsonData = JSON.stringify({'content': convertEmojiInMessage(message.val()), 'to': actualRicipient, 'from': username});
+    let jsonData = JSON.stringify({
+        'content': convertEmojiInMessage(message.val()),
+        'to': actualRicipient,
+        'from': username
+    });
     stompClient.send("/app/czat", {}, jsonData);
     message.val('');
 }
@@ -200,25 +204,38 @@ function sendMessage() {
 function showMessage(message) {
     let history = $(".msg_history");
     let historyContainer = $(".msg_history_container");
-    if (history.height()-80 <= historyContainer.height() + historyContainer.scrollTop()) {
+    let chatList = $(".chat_list");
+
+    function displayNewMessage() {
         if (message.from === username) {
             addIncomingMessage(message);
-        } else {
+        } else if (message.from === actualRicipient) {
             addOutgoingMessage(message);
+        } else {
+            chatList.each(function (i, obj) {
+                if ($(obj).find("h5").text() === message.from) {
+                    if (!$(obj).hasClass("newMessage")) {
+                        $(obj).toggleClass("newMessage");
+                    }
+                }
+            });
         }
+    }
+
+    if (history.height() - 80 <= historyContainer.height() + historyContainer.scrollTop()) {
+        displayNewMessage();
         historyContainer.animate({scrollTop: history.height()}, "slow");
     } else {
-        if (message.from === username) {
-            addIncomingMessage(message);
-        } else {
-            addOutgoingMessage(message);
-        }
+        displayNewMessage();
     }
 }
 
 let onClickAttrChat;
 
 function setRecipent(friendName, object) {
+    if ($(object).hasClass("newMessage")) {
+        $(object).toggleClass("newMessage");
+    }
     actualRicipient = friendName;
     $('.chat_list').each(function (i, obj) {
         if ($(obj).hasClass("active_chat")) {

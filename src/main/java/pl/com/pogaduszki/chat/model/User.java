@@ -1,4 +1,4 @@
-package pl.pogawedki.czat.model;
+package pl.com.pogaduszki.chat.model;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;

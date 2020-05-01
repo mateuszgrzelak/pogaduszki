@@ -1,9 +1,6 @@
-package pl.pogawedki.czat.controller;
-
+package pl.com.pogaduszki.chat.controller;
 
 import com.google.gson.Gson;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -11,17 +8,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
-import pl.pogawedki.czat.model.Message;
-import pl.pogawedki.czat.model.MessagesDB;
-import pl.pogawedki.czat.model.User;
-import pl.pogawedki.czat.repository.MessageRepository;
-import pl.pogawedki.czat.repository.UserRepository;
+import pl.com.pogaduszki.chat.model.Message;
+import pl.com.pogaduszki.chat.model.MessagesDB;
+import pl.com.pogaduszki.chat.model.User;
+import pl.com.pogaduszki.chat.repository.MessageRepository;
+import pl.com.pogaduszki.chat.repository.UserRepository;
 
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 @Controller
 public class CommunicationController {
@@ -45,7 +41,7 @@ public class CommunicationController {
         User destinationUser = userRepository.findByUsername(message.getTo());
         message.setDate(LocalDateTime.now().format(formatter));
 
-        if(message.getContent()==null){
+        if (message.getContent() == null) {
             return;
         }
         if (destinationUser == null || !message.getFrom().equals(principal.getName())) {
@@ -55,23 +51,24 @@ public class CommunicationController {
             return;
         }
         MessagesDB messDB = messageRepository.findByName(destinationUser.getFriends().get(principal.getName()));
-        if(messDB==null){
+        if (messDB == null) {
             return;
         }
+        message.setContent(HtmlUtils.htmlEscape(message.getContent()));
         messDB.getMessages().add(message);
         messageRepository.save(messDB);
         messagingTemplate.convertAndSend("/topic/" + message.getTo(), new Message(message.getFrom(),
-                null, HtmlUtils.htmlEscape(message.getContent()), message.getDate()));
+                null, message.getContent(), message.getDate()));
         messagingTemplate.convertAndSend("/topic/" + message.getFrom(), new Message(message.getFrom(),
-                null, HtmlUtils.htmlEscape(message.getContent()), message.getDate()));
+                null, message.getContent(), message.getDate()));
     }
 
     @GetMapping("/messages")
     @ResponseBody
-    public String getMessages(@RequestParam(name = "user")String destinationName, Principal principal){
+    public String getMessages(@RequestParam(name = "user") String destinationName, Principal principal) {
         User user = userRepository.findByUsername(principal.getName());
         MessagesDB messDB = messageRepository.findByName(user.getFriends().get(destinationName));
-        if(messDB==null){
+        if (messDB == null) {
             return null;
         }
         Gson gson = new Gson();

@@ -1,4 +1,4 @@
-package pl.pogawedki.czat;
+package pl.com.pogaduszki.chat;
 
 
 import org.springframework.boot.SpringApplication;

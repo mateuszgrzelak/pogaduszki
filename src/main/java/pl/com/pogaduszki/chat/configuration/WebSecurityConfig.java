@@ -1,4 +1,4 @@
-package pl.pogawedki.czat.configuration;
+package pl.com.pogaduszki.chat.configuration;
 
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import pl.pogawedki.czat.service.MongoUserDetailsService;
+import pl.com.pogaduszki.chat.service.MongoUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -24,36 +24,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-        //permit to send static files to client
-        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-        .antMatchers("/register").permitAll()
-        .anyRequest().authenticated()
-        .and()
-        .formLogin()
-        .loginPage("/login").permitAll()
-        .and()
-        .logout()
-        .deleteCookies("username")
-        .logoutUrl("/logout")
-        .permitAll();
+                //permit to send static files to client
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                .antMatchers("/register").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login").permitAll()
+                .and()
+                .logout()
+                .deleteCookies("username")
+                .logoutUrl("/logout")
+                .permitAll();
     }
-
-//  @Override
-//  public void configure(WebSecurity web) throws Exception {
-//    web.ignoring()
-//        .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/icon/**");
-//  }
-
-//  @Bean
-//  @Override
-//  protected UserDetailsService userDetailsService() {
-//    UserDetails user = User.withDefaultPasswordEncoder()
-//        .username("user")
-//        .password("user1")
-//        .roles("USER")
-//        .build();
-//    return new InMemoryUserDetailsManager(user);
-//  }
 
     @Override
     public void configure(AuthenticationManagerBuilder builder) throws Exception {
@@ -62,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-       return new BCryptPasswordEncoder(BCryptPasswordEncoder.BCryptVersion.$2A,10);
+        return new BCryptPasswordEncoder(BCryptPasswordEncoder.BCryptVersion.$2A, 10);
     }
 
 }

@@ -1,12 +1,12 @@
-package pl.pogawedki.czat.service;
+package pl.com.pogaduszki.chat.service;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import pl.pogawedki.czat.model.User;
-import pl.pogawedki.czat.repository.UserRepository;
+import pl.com.pogaduszki.chat.model.User;
+import pl.com.pogaduszki.chat.repository.UserRepository;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,4 +1,4 @@
-package pl.pogawedki.czat.controller;
+package pl.com.pogaduszki.chat.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
-import pl.pogawedki.czat.model.ClassWithOnlyOneFieldString;
-import pl.pogawedki.czat.model.MessagesDB;
-import pl.pogawedki.czat.model.User;
-import pl.pogawedki.czat.model.UserDTO;
-import pl.pogawedki.czat.repository.MessageRepository;
-import pl.pogawedki.czat.repository.UserRepository;
+import pl.com.pogaduszki.chat.model.ClassWithOnlyOneFieldString;
+import pl.com.pogaduszki.chat.model.MessagesDB;
+import pl.com.pogaduszki.chat.model.User;
+import pl.com.pogaduszki.chat.model.UserDTO;
+import pl.com.pogaduszki.chat.repository.MessageRepository;
+import pl.com.pogaduszki.chat.repository.UserRepository;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -86,7 +86,7 @@ public class UserHandlingController {
         if (!invitedUser.getInvitations().contains(friendsLogin.getValue())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        invitedUser.getFriends().put(friendsLogin.getValue(), (principal.getName()+friendsLogin.getValue()));
+        invitedUser.getFriends().put(friendsLogin.getValue(), (principal.getName() + friendsLogin.getValue()));
         invitedUser.getInvitations().remove(friendsLogin.getValue());
         userRepository.save(invitedUser);
 
@@ -96,14 +96,14 @@ public class UserHandlingController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        userWhoInvites.getFriends().put(invitedUser.getUsername(), (principal.getName()+friendsLogin.getValue()));
+        userWhoInvites.getFriends().put(invitedUser.getUsername(), (principal.getName() + friendsLogin.getValue()));
         userRepository.save(userWhoInvites);
         messagingTemplate.convertAndSend("/topic/" + invitedUser.getUsername() + "?conv"
                 , new User(userWhoInvites.getUsername(), null, userWhoInvites.getDescription(), null, null));
         messagingTemplate.convertAndSend("/topic/" + userWhoInvites.getUsername() + "?conv"
                 , new User(invitedUser.getUsername(), null, invitedUser.getDescription(), null, null));
 
-        messageRepository.insert(new MessagesDB((principal.getName()+friendsLogin.getValue()), new LinkedList<>()));
+        messageRepository.insert(new MessagesDB((principal.getName() + friendsLogin.getValue()), new LinkedList<>()));
 
 
         return ResponseEntity.status(HttpStatus.OK).build();
@@ -128,8 +128,8 @@ public class UserHandlingController {
 
 
     @GetMapping("/register")
-    public String getRegister(UserDTO userDTO) {
-        return "singUp";
+    public String getRegisterPage(UserDTO userDTO) {
+        return "register";
     }
 
     @PostMapping("/register")
@@ -149,27 +149,27 @@ public class UserHandlingController {
         }
 
         if (result.hasErrors()) {
-            return "singUp";
+            return "register";
         }
         userRepository.insert(new User(userDTO.getUsername(), encoder.encode(userDTO.getPassword()), HtmlUtils.htmlEscape(userDTO.getDescription()), new HashMap<>(), new LinkedList<>()));
         return "login";
     }
 
     @GetMapping("/")
-    public String getCzat(Principal principal, Model model) {
+    public String getChatPage(Principal principal, Model model) {
         User user = userRepository.findByUsername(principal.getName());
         model.addAttribute("invitations", user.getInvitations());
-        List<User> users= new LinkedList<>();
-        for(String login: user.getFriends().keySet()){
+        List<User> users = new LinkedList<>();
+        for (String login : user.getFriends().keySet()) {
             users.add(userRepository.findByUsername(login));
         }
         model.addAttribute("friends", user.getFriends().keySet());
         model.addAttribute("users", users);
-        return "czat";
+        return "chat";
     }
 
     @GetMapping("/login")
-    public String getLogin() {
+    public String getLoginPage() {
         return "login";
     }
 

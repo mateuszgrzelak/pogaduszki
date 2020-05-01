@@ -84,7 +84,7 @@
                 <div class="chat_img"> <img src="img/user-profile.png" alt="sunil"> </div>
                 <div class="chat_ib">
                   <h5 th:text="${user.getUsername()}"></h5>
-                  <p th:text="${user.getDescription()}">Description.</p>
+                  <p th:utext="${user.getDescription()}">Description.</p>
                 </div>
               </div>
             </div>
