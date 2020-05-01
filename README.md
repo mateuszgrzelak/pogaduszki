@@ -1,17 +1,18 @@
-## A simple chat project written in Java that uses RabbitMQ, WebSocket, MongoDB and Spring.
+# Simple chat project
+A simple project that uses [RabbitMQ](https://www.rabbitmq.com/), [WebSocket](https://en.wikipedia.org/wiki/WebSocket), [MongoDB](https://www.mongodb.com/) and [Spring](https://spring.io/).
 
- Authentication is done by Spring Security where details about users are stored in MongoDB. All messages are sending through WebSocket protocol and are stored in MongoDB.
+Authentication is done by Spring Security where details about users are stored in MongoDB. All messages are sending through WebSocket protocol and are stored in MongoDB.
  
 To download RabbitMQ and MongoDB you can use Docker.
  
 ### Intallation
 
-MongoDB: 
+**MongoDB:** 
 ```
 docker run -d --name some-mongo -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=<login> -e MONGO_INITDB_ROOT_PASSWORD=<password> mongo
 ```
 
-RabbitMQ: First create Dockerfile that contains:
+**RabbitMQ:** First create Dockerfile that contains:
 ```
 FROM rabbitmq:3-management
 RUN rabbitmq-plugins enable --offline rabbitmq_management
@@ -19,7 +20,10 @@ RUN rabbitmq-plugins enable --offline rabbitmq_stomp
 RUN rabbitmq-plugins enable --offline rabbitmq_web_stomp
 EXPOSE 61613
 ```
-Then in CLI (Command Line Interpreter) enter: `docker build -f Dockerfile -t rabbitmq:chat .`
+Then in CLI (Command Line Interpreter) enter: 
+```
+docker build -f Dockerfile -t rabbitmq:chat .
+```
 
 After that in CLI enter: 
 ```
