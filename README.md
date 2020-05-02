@@ -5,7 +5,7 @@ Authentication is done by Spring Security where details about users are stored i
  
 RabbitMQ and MongoDB can be downloaded using [Docker](https://www.docker.com/).
  
-### Intallation
+### Installation
 
 **MongoDB:** In CLI (Command Line Interpreter) enter:
 ```
