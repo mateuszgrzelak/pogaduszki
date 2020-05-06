@@ -1,7 +1,7 @@
 # Simple chat project
 A simple project that uses [RabbitMQ](https://www.rabbitmq.com/), [WebSocket](https://en.wikipedia.org/wiki/WebSocket), [MongoDB](https://www.mongodb.com/) and [Spring](https://spring.io/).
 
-The page is available at [http://pogaduszki.com.pl/](http://pogaduszki.com.pl/)
+The page is available at [http://pogaduszki.com.pl/](http://185.243.54.201/)
 
 Authentication is done by Spring Security where details about users are stored in MongoDB. All messages are sending through WebSocket protocol and are stored in MongoDB.
  
