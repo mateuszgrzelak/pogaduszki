@@ -6,7 +6,20 @@ The website is available at [http://185.243.54.201:8080/](http://185.243.54.201:
 Authentication is done by Spring Security where details about users are stored in MongoDB. All messages are sending through WebSocket protocol and are stored in MongoDB.
  
 RabbitMQ and MongoDB can be downloaded using [Docker](https://www.docker.com/).
- 
+
+## Test Accounts
+
+User 1:
+```
+username: test1
+password: test1
+```
+User 2:
+```
+username: test2
+password: test2
+```
+
 ### Installation
 
 **MongoDB:** In CLI (Command Line Interpreter) enter:
